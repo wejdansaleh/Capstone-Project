@@ -1,0 +1,128 @@
+---
+title: "cap1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo=FALSE, include= FALSE}
+#install.packages("")
+library(tidyverse)
+library(caret)
+library(dplyr)
+
+```
+
+
+```{r echo=FALSE, include=FALSE}
+# Read data
+Bitcoin <- read_csv("data/BitcoinHeistData.csv")
+Bitcoin
+```
+
+```{r echo=FALSE, include=FALSE}
+str(Bitcoin)
+```
+
+```{r include=FALSE, echo=FALSE}
+# check there is a missing value
+sum(is.na(Bitcoin))
+```
+
+```{r echo=FALSE, include=FALSE}
+
+# split data to train and test data
+
+library(rsample)
+set.seed(123)
+split <- initial_split(Bitcoin, prop = .7)
+bitcoin_train <- training(split)
+bitcoin_test <- testing(split)
+```
+
+
+
+_________________________SVM__________________________ not done 
+
+
+```{r}
+# apply Support Vector Machines 
+
+library(e1071)
+classifier <- svm(
+                  formula = factor(label) ~ .,
+                 data = sample_n(bitcoin_train, 10000),  
+                 method = 'C-classification',
+                 kernel= 'radial',
+                 gamma= 0.1,
+                 cost= 10)
+```
+
+
+```{r}
+summary(classifier)
+```
+
+
+```{r} 
+# Predicting on test data' 
+predsvm <- predict(classifier, bitcoin_test$label) 
+
+```
+
+
+```{r}
+
+# # Model Evauation  Matrix 
+cmsvm <- confusionMatrix(predsvm, bitcoin_test$label)
+cmsvm
+```
+ 
+ 
+ 
+ 
+ 
+ ________________________ NB__________________________ 
+ 
+
+```{r}
+# Naive Bayes 
+library(e1071) 
+library(caTools) 
+library(caret) 
+
+# Fitting Naive Bayes Model  
+# to training dataset 
+NB <- naiveBayes(factor(label) ~ ., data = sample_n(bitcoin_train, 500000)) 
+NB 
+  
+```
+
+
+```{r}
+bitcoin_test$label <- as.factor(bitcoin_test$label)
+bitcoin_test$label
+```
+
+```{r} 
+# Predicting on test data' 
+predNB <- predict(NB, bitcoin_test$label) 
+#cm <- confusionMatrix(pred, bitcoin_test$label)
+```
+
+```{r}
+
+# # Model Evauation  Matrix 
+cm <- confusionMatrix(predNB, bitcoin_test$label)
+cm
+```
+
+
+```{r}
+confusionMatrix(predNB,bitcoin_test$label)
+```
+
+___________________________  ____________________________
+
