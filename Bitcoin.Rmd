@@ -7,8 +7,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 ```{r echo=FALSE, include= FALSE}
-#install.packages("")
+# Loading libriry
 library(tidyverse)
 library(caret)
 library(dplyr)
@@ -17,19 +18,77 @@ library(dplyr)
 
 
 ```{r echo=FALSE, include=FALSE}
-# Read data
+# Import Data
 Bitcoin <- read_csv("data/BitcoinHeistData.csv")
-Bitcoin
+
 ```
 
-```{r echo=FALSE, include=FALSE}
-str(Bitcoin)
+```{r}
+# Check the number of rows and columns the data frame has
+dim(Bitcoin)
 ```
 
-```{r include=FALSE, echo=FALSE}
+
+```{r}
+# Clean the data
 # check there is a missing value
 sum(is.na(Bitcoin))
 ```
+
+```{r}
+# Visualization missing data
+library(naniar)
+vis_miss(sample_n(Bitcoin, 90000))
+```
+
+```{r}
+# Analyzing categorical variables
+library(funModeling) 
+#library(Hmisc)
+freq(Bitcoin)
+```
+
+
+```{r}
+# Analyzing numerical variables
+plot_num(Bitcoin)
+```
+
+
+```{r}
+# Analyzing numerical and categorical at the same time
+ describe(Bitcoin)
+```
+
+
+```{r}
+# Data Visualization 
+library(corrplot)
+M<-cor(Bitcoin[,c(-1,-10)])
+corrplot(M, method="number", type="upper", order="hclust", )
+```
+
+
+```{r}
+
+library(hrbrthemes)
+library(viridis)
+library(babynames)
+
+ggplot(Bitcoin, aes(x=year, y=weight, group=label, fill=label)) +
+    geom_line() +
+    theme(legend.position="none") +
+    ggtitle("Longitudinal payment trend per family") +
+    theme_ipsum() +
+    theme(
+      legend.position="none",
+      panel.spacing = unit(0, "lines"),
+      strip.text.x = element_text(size = 8),
+      plot.title = element_text(size=13)
+    ) +
+    facet_wrap(~label, scale="free_y")
+```
+
 
 ```{r echo=FALSE, include=FALSE}
 
@@ -43,47 +102,30 @@ bitcoin_test <- testing(split)
 ```
 
 
-
-_________________________SVM__________________________ not done 
+_________________________ SVM __________________________ 
 
 
 ```{r}
-# apply Support Vector Machines 
+# apply Support Vector Machines   sample_n(bitcoin_train, 10000
 
 library(e1071)
 classifier <- svm(
                   formula = factor(label) ~ .,
-                 data = sample_n(bitcoin_train, 10000),  
-                 method = 'C-classification',
-                 kernel= 'radial',
-                 gamma= 0.1,
-                 cost= 10)
-```
-
-
-```{r}
+                  data = sample_n(bitcoin_train, 10000),  
+                  method = 'C-classification',
+                  kernel= 'radial')
 summary(classifier)
 ```
 
-
-```{r} 
-# Predicting on test data' 
-predsvm <- predict(classifier, bitcoin_test$label) 
-
-```
-
-
 ```{r}
+predsvm <- fitted(classifier)
 
 # # Model Evauation  Matrix 
 cmsvm <- confusionMatrix(predsvm, bitcoin_test$label)
 cmsvm
+
 ```
- 
- 
- 
- 
- 
+
  ________________________ NB__________________________ 
  
 
@@ -94,35 +136,103 @@ library(caTools)
 library(caret) 
 
 # Fitting Naive Bayes Model  
-# to training dataset 
 NB <- naiveBayes(factor(label) ~ ., data = sample_n(bitcoin_train, 500000)) 
-NB 
+
   
 ```
 
 
-```{r}
-bitcoin_test$label <- as.factor(bitcoin_test$label)
-bitcoin_test$label
-```
-
 ```{r} 
 # Predicting on test data' 
+bitcoin_test$label <- as.factor(bitcoin_test$label)
+bitcoin_test$label
 predNB <- predict(NB, bitcoin_test$label) 
-#cm <- confusionMatrix(pred, bitcoin_test$label)
+
+# # Model Evauation  Matrix 
+cmnb <- confusionMatrix(predNB, bitcoin_test$label)
+cmnb
+```
+
+______________________ #DBScan ______________________- ( not yet )
+
+```{r}
+library("fpc")
+# Compute DBSCAN using fpc package
+set.seed(123)
+DBS <- as.matrix(bitcoin_train[,2:9])
+db <- fpc::dbscan(DBS, eps = 0.15, MinPts = 5)
+# Plot DBSCAN results
+plot(db, DBS, main = "DBSCAN", frame = FALSE)
+```
+
+
+
+
+```{r}
+#DBScan 
+library(fpc) 
+library(dbscan)
+DBS <- as.matrix(bitcoin_train[,2:9])
+  #bitcoin_train[, c(-1,-10)]
+
+# fitting DBScan clustering
+Dbscan_cl <- dbscan(DBS, eps = 0.45, MinPts = 5)
+Dbscan_cl 
+```
+
+
+```{r}
+# Checking cluster 
+Dbscan_cl$cluster 
+```
+
+```{r}
+table(Dbscan_cl$cluster, bitcoin_train$label) 
+
+```
+
+```{r}
+
+# Plotting Cluster 
+plot(Dbscan_cl, DBS, main = "DBScan") 
+
+```
+
+
+----------------- random Forest--------------------
+
+```{r}
+
+
+# Load the library 
+library(randomForest) 
+
+# Create random forest 
+# For classification 
+rf.cl <- randomForest(factor(label) ~ .,  
+                        data = sample_n(bitcoin_train, 10000),  
+                        importance = TRUE, 
+                        proximity = TRUE) 
+rf.cl
+```
+
+
+```{r}
+plot(rf.cl)
+```
+
+
+```{r} 
+# Predicting the Test set results 
+predrf = predict(rf.cl, newdata = bitcoin_test[-10]) 
+  
 ```
 
 ```{r}
 
 # # Model Evauation  Matrix 
-cm <- confusionMatrix(predNB, bitcoin_test$label)
-cm
+cmrf <- confusionMatrix(predrf, bitcoin_test$label)
+cmrf
 ```
 
-
-```{r}
-confusionMatrix(predNB,bitcoin_test$label)
-```
-
-___________________________  ____________________________
 
