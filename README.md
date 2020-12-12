@@ -27,7 +27,7 @@ This project , it’s based on classification algorithm.
 - Naive Bayes 
 It is a classification technique based on Bayes” Theorem with an assumption of independence among predictors.
 
-- Random forest algorithm used for classification.
+- Random forest algorithm.
 
 # Problem:
  Error: vector memory exhausted (limit reached)!!
