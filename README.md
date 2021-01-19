@@ -1,38 +1,56 @@
 # Capstone-Project
 Analysis for Ransomware Detection on the Bitcoin Blockchain.
 
-# Bitcoin:
+# Introduction about Bitcoin:
 Bitcoin transactions can be created anonymously, and participation in the network does not require identity verification. A payment can be requested by delivering a public Bitcoin address to a sender by using anonymity networks.
+This ease of usage and worldwide transaction availability of Bitcoin have been noticed by malicious actors.
 
-# The idea of this project: 
-Ransomware Detection and Prediction a new kind.
-- Which features can we extract from the Bitcoin network to detect ransomware payments. 
-- Does a ransomware family.
-- Can we detect Bitcoin ransom payments.
+# Purpose of the project:
+Detection and classification.
+Detection a new family of ransomware.
 
-# Features extraction:
+# Steps that will be follow for Detection and Prediction Ransomware.
+1. Which features can we extract from the Bitcoin network to detect ransomware payments. 
+2. Does a ransomware family.
+3. Can we detect Bitcoin ransom payments that are not reported to law agencies or Blockchain Data Analytics companies?
 
-There are six features for an address: income, neighbors, weight, length, count, loop. 
-- Income 
-- Neighbors
-- Weight
-- Length
-- Count
-- Loop.
+# Feature Extraction:
+- Address: Ch, stores the bitcoin address.
+- Year: Int, stores the day of the year of the transaction.
+- Day: Int, stores the day of the year of the transaction, ex. 1 is the first day, 365 the last day.
+- Length: Int, storing the number of maxing rounds on Bitcoin.
+- Weight: Int, storing the merge behavior.
+- Count: Int, quantifying the merging pattern.
+- Neighbors: Int, storing number of transactions, that have address as one of its output addresses.
+- Looped: Int, storing the number of starter transaction that connected with more than directed path. 
+- Income: Int, storing the amount of Bitcoin.
+ 
+ Dependent/ Response Variable:
+- Label: Ch, stores the name of ransomware family.
 
-# Methodology:
-This project , it’s based on classification algorithm.  
-- Support Vector Machine (SVM)
-    Is supervised learning algorithms that analyze data used for classification and regression analysis. In this project, it has develop by used classification problems.
-- Naive Bayes 
-It is a classification technique based on Bayes” Theorem with an assumption of independence among predictors.
+# Data Preprocess:
+1. Check the number of columns and rows, in order to understand the size of data.
+2. Check if there is missing values, in order to decided how to handle missing values when it apply machine learning.
 
-- Random forest algorithm.
+# Machine learning model:
+- DBScan Clustering:
+Density-Based Clustering is an Unsupervised learning Non-linear algorithm. The data is partitioned into groups with similar characteristics or clusters.
+ 
+- Support Vector Machines (SVMs):
+Is supervised learning models with associated learning algorithms that analyze data used for classification and regression analysis. This means that SVM trains on a set of labeled data. SVM studies the labeled training data and then classifies any new input data depending on what it learned in the training phase.
 
-# Problem:
+ 
+- Naive Bayes
+Naive Bayes is a Supervised Machine Learning algorithm based on the Bayes Theorem that is used to solve classification problems  by following a probabilistic approach. idea that the predictor variables in a machine learning model are independent of each other. Meaning that the outcome of a model depends on a set of independent variables that have nothing to do with each other. 
+
+# Conclusion:
+The SVM and Naive Bayes, seems to work well to classify and recognize the ransomware family. Therefore, we can detect a new ransomware family.
+
+
+# Challenge:
  Error: vector memory exhausted (limit reached)!!
  For that, all the algorithims was apply on select "10000" random sample.
  
-# Feature develop:
-- Based on the information about existing ransomware families at a time, can we detect the emergence of a new ransomware on the Bitcoin blockchain.
+# Future work:
+- Based on the information about existing ransomware families at a time, we can detect the emergence of a new ransomware on the Bitcoin blockchain.
 - Make my analysis as production.
