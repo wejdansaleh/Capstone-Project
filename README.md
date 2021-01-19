@@ -25,7 +25,7 @@ Detection a new family of ransomware.
 - Looped: Int, storing the number of starter transaction that connected with more than directed path. 
 - Income: Int, storing the amount of Bitcoin.
  
- Dependent/ Response Variable:
+Dependent/ Response Variable:
 - Label: Ch, stores the name of ransomware family.
 
 # Data Preprocess:
@@ -39,7 +39,7 @@ Density-Based Clustering is an Unsupervised learning Non-linear algorithm. The d
  2. Support Vector Machines (SVMs):
 Is supervised learning models with associated learning algorithms that analyze data used for classification and regression analysis. This means that SVM trains on a set of labeled data. SVM studies the labeled training data and then classifies any new input data depending on what it learned in the training phase.
 
- 3. Naive Bayes
+3. Naive Bayes
 Naive Bayes is a Supervised Machine Learning algorithm based on the Bayes Theorem that is used to solve classification problems  by following a probabilistic approach. idea that the predictor variables in a machine learning model are independent of each other. Meaning that the outcome of a model depends on a set of independent variables that have nothing to do with each other. 
 
 # Conclusion:
@@ -47,8 +47,9 @@ The SVM and Naive Bayes, seems to work well to classify and recognize the ransom
 
 
 # Challenge:
- Error: vector memory exhausted (limit reached)!!
- For that, all the algorithims was apply on select "10000" random sample.
+ - Error: vector memory exhausted (limit reached)!!
+ By try to take a saple befor split the data into train and test data set.
+
  
 # Future work:
 - Based on the information about existing ransomware families at a time, we can detect the emergence of a new ransomware on the Bitcoin blockchain.
