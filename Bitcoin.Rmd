@@ -1,0 +1,214 @@
+---
+title: "Capston Project"
+output:
+  html_document:
+    fig_caption: false
+    toc: true
+    toc_float:
+      collapsed: false
+      smoth_scroll: false
+      toc_depth: 3
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r echo=FALSE, include= FALSE}
+# Loading libriry
+library(tidyverse)
+library(caret)
+library(dplyr)
+
+```
+
+## Exploratory Data Analysis "EDA".
+
+
+```{r echo=FALSE, include=FALSE}
+# Import Data
+Bitcoin <- read_csv("data/BitcoinHeistData.csv")
+
+```
+
+
+### 1. Dimention of the data.
+
+```{r echo=FALSE}
+# Check the number of rows and columns the data frame has
+dim(Bitcoin) 
+```
+
+
+### 2. Visualization missing data.
+
+```{r echo=FALSE, include=FALSE}
+# Clean the data
+# check there is a missing value
+sum(is.na(Bitcoin))
+```
+
+```{r echo=FALSE, include=FALSE}
+sample.data <- Bitcoin[sample(nrow(Bitcoin), 20000, replace = FALSE, prob = NULL),]
+```
+ 
+```{r echo=FALSE}
+# Visualization missing data
+library(naniar)
+vis_miss(sample.data)
+```
+
+### 3. Analyzing numerical and categorical at the same time.
+
+##### - categorical variables.
+
+```{r echo=FALSE , include=FALSE}
+# Analyzing categorical variables
+library(funModeling) 
+freq(Bitcoin)
+```
+
+##### - Numercil variables.
+
+```{r echo=FALSE}
+# Analyzing numerical variables
+plot_num(Bitcoin)
+```
+
+##### - Describe data.
+
+```{r echo=FALSE}
+# Analyzing numerical and categorical at the same time
+  describe(Bitcoin)
+```
+
+### 4. Visualization data.
+
+```{r echo=FALSE}
+# Data Visualization 
+library(corrplot)
+M<-cor(Bitcoin[,c(-1,-10)])
+corrplot(M, method="number", type="upper", order="hclust", )
+```
+
+## Machine Learning "ML".
+
+```{r echo=FALSE, include=FALSE}
+
+# split data to train and test data
+sample.data$label <- as.factor(sample.data$label)
+library(rsample)
+set.seed(123)
+split <- initial_split(sample.data, prop = .7)
+bitcoin_train <- training(split)
+bitcoin_test <- testing(split)
+```
+
+
+
+### 1.DBScan clustering.
+
+```{r echo=FALSE}
+library(fpc) 
+DBS <- bitcoin_train[, c(-1,-10)]
+Dbscan_cl <- dbscan(DBS, eps = 0.45, MinPts = 5) 
+Dbscan_cl 
+```
+
+
+```{r echo=FALSE}
+# Table 
+table(Dbscan_cl$cluster, bitcoin_train$label) 
+```
+
+### 2.Support vector machine "SVM".
+
+`
+```{r echo=FALSE, include=FALSE}
+# apply Support Vector Machines 
+
+
+library(e1071)
+SVM.model <- svm(label~ .,
+                 data = bitcoin_train , 
+            method="C-classification", 
+            kernal="radial", 
+            gamma=0.1, 
+            cost=10)
+```
+
+```{r echo=FALSE}
+summary(SVM.model)
+```
+
+
+```{r echo=FALSE}
+#bitcoin_test$label <- as.factor(bitcoin_test$label)
+SVM.pred <- fitted(SVM.model, bitcoin_test$label)
+
+
+```
+
+##### Evalute Support vector machine.
+
+```{r echo=FALSE}
+# # Model Evauation  Matrix 
+#svm.accuracy(SVM.pred, bitcoin_test)
+ #confusionMatrix(SVM.pred, bitcoin_test$label)
+#SVM.cm
+#table(SVM.pred,bitcoin_test)
+```
+ 
+ 
+### 3.Naive Bayes
+
+
+```{r echo=FALSE, include=FALSE}
+# Naive Bayes 
+library(e1071) 
+library(caTools) 
+library(caret) 
+
+# Fitting Naive Bayes Model  
+NB <- naiveBayes(label~ ., data =bitcoin_train) 
+NB
+  
+```
+
+
+```{r echo=FALSE, include=FALSE} 
+# Predicting on test data' 
+NB.pred <- predict(NB, bitcoin_test$label) 
+NB.pred
+
+
+```
+
+##### Evalute Naive Bayes.
+`
+```{r echo=FALSE}
+# Model Evauation  Matrix 
+ #table( NB.pred, bitcoin_test$label)
+confusionMatrix( NB.pred, bitcoin_test$label)
+
+
+```
+
+
+
+
+```{r echo=FALSE}
+#library(class)
+
+#c1 <- bitcoin_train[, 10]
+#knn.model <- knn(train = bitcoin_train, 
+            #          test = bitcoin_test, 
+             #         cl = c1, 
+              #        k = 3,
+               #       prob=TRUE) 
+```
+
+
+
