@@ -18,12 +18,12 @@ Detection a new family of ransomware.
 -  Address: Ch, stores the bitcoin address.
 - Year: Int, stores the day of the year of the transaction.
 - Day: Int, stores the day of the year of the transaction, ex. 1 is the first day, 365 the last day.
-- Length: Int, storing the number of maxing rounds on Bitcoin.
-- Weight: Int, storing the merge behavior.
-- Count: Int, quantifying the merging pattern.
-- Neighbors: Int, storing number of transactions, that have address as one of its output addresses.
-- Looped: Int, storing the number of starter transaction that connected with more than directed path. 
-- Income: Int, storing the amount of Bitcoin.
+- Length: Int, storing the number of maxing rounds on Bitcoin.
+- Weight: Int, storing the merge behavior.
+- Count: Int, quantifying the merging pattern.
+- Neighbors: Int, storing number of transactions, that have address as one of its output addresses.
+- Looped: Int, storing the number of starter transaction that connected with more than directed path. 
+- Income: Int, storing the amount of Bitcoin.
  
  Dependent/ Response Variable:
 - Label: Ch, stores the name of ransomware family.
