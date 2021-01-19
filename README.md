@@ -15,9 +15,9 @@ Detection a new family of ransomware.
 3. Can we detect Bitcoin ransom payments that are not reported to law agencies or Blockchain Data Analytics companies?
 
 # Feature Extraction:
-- Address: Ch, stores the bitcoin address.
-- Year: Int, stores the day of the year of the transaction.
-- Day: Int, stores the day of the year of the transaction, ex. 1 is the first day, 365 the last day.
+-  Address: Ch, stores the bitcoin address.
+- Year: Int, stores the day of the year of the transaction.
+- Day: Int, stores the day of the year of the transaction, ex. 1 is the first day, 365 the last day.
 - Length: Int, storing the number of maxing rounds on Bitcoin.
 - Weight: Int, storing the merge behavior.
 - Count: Int, quantifying the merging pattern.
@@ -33,14 +33,13 @@ Detection a new family of ransomware.
 2. Check if there is missing values, in order to decided how to handle missing values when it apply machine learning.
 
 # Machine learning model:
-- DBScan Clustering:
+ 1. DBScan Clustering:
 Density-Based Clustering is an Unsupervised learning Non-linear algorithm. The data is partitioned into groups with similar characteristics or clusters.
  
-- Support Vector Machines (SVMs):
+ 2. Support Vector Machines (SVMs):
 Is supervised learning models with associated learning algorithms that analyze data used for classification and regression analysis. This means that SVM trains on a set of labeled data. SVM studies the labeled training data and then classifies any new input data depending on what it learned in the training phase.
 
- 
-- Naive Bayes
+ 3. Naive Bayes
 Naive Bayes is a Supervised Machine Learning algorithm based on the Bayes Theorem that is used to solve classification problems  by following a probabilistic approach. idea that the predictor variables in a machine learning model are independent of each other. Meaning that the outcome of a model depends on a set of independent variables that have nothing to do with each other. 
 
 # Conclusion:
