@@ -34,16 +34,22 @@ Dependent/ Response Variable:
 
 # Machine learning model:
  1. DBScan Clustering:
-Density-Based Clustering is an Unsupervised learning Non-linear algorithm. The data is partitioned into groups with similar characteristics or clusters.
- 
+Density-Based Clustering is an Unsupervised learning Non-linear algorithm. The data is partitioned into groups with similar characteristics or clusters. DBScan can mark outlier points that lie alone in low-density regions as noise. 
+
  2. Support Vector Machines (SVMs):
 Is supervised learning models with associated learning algorithms that analyze data used for classification and regression analysis. This means that SVM trains on a set of labeled data. SVM studies the labeled training data and then classifies any new input data depending on what it learned in the training phase.
 
 3. Naive Bayes
-Naive Bayes is a Supervised Machine Learning algorithm based on the Bayes Theorem that is used to solve classification problems  by following a probabilistic approach. idea that the predictor variables in a machine learning model are independent of each other. Meaning that the outcome of a model depends on a set of independent variables that have nothing to do with each other. 
+Naive Bayes is a Supervised Machine Learning algorithm based on the Bayes Theorem with an assumption of independence among predictors, that is used to solve classification problems  by following a probabilistic approach. idea that the predictor variables in a machine learning model are independent of each other. Meaning that the outcome of a model depends on a set of independent variables that have nothing to do with each other. 
+ Bayes theorem provides a way of calculating posterior probability P(c|x) from P(c), P(x) and P(x|c). 
+     P(c|x) is the posterior probability of class (c, target) given predictor (x, attributes).
+     P(c) is the prior probability of class.
+     P(x|c) is the likelihood which is the probability of predictor given class.
+     P(x) is the prior probability of predictor.
 
 # Conclusion:
-The SVM and Naive Bayes, seems to work well to classify and recognize the ransomware family. Therefore, we can detect a new ransomware family.
+
+In this project I have use SVM and Naive Bayes, to detect and predict ransomware payments on Bitcoin. That  seems to work well to classify and recognize the ransomware family. Therefore, we can detect a new ransomware family. 
 
 
 # Challenge:
@@ -54,3 +60,4 @@ The SVM and Naive Bayes, seems to work well to classify and recognize the ransom
 # Future work:
 - Based on the information about existing ransomware families at a time, we can detect the emergence of a new ransomware on the Bitcoin blockchain.
 - Make my analysis as production.
+
